@@ -40,6 +40,21 @@ class RoomView(APIView):
             serializer = ReadRoomSerializer(room).data
             return Response(serializer)
 
+    def put(self, request, pk):
+        room = self.get_room(pk)
+        if room is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        else:
+            if room.user != reqest.user:
+                return Response(status=status.HTTP_403_FORBIDDEN)
+            serializer = WriteRoomSerializer(room, data=request.data, partial=True)
+            if serializer.is_valid():
+                room = serializer.save()
+                return Response(ReadRoomSerializer(room).data)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response()
+
     def delete(self, request, pk):
         room = self.get_room(pk)
         if room is None:
