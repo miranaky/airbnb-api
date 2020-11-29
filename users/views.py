@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rooms.serializers import RoomSerializer
 from rooms.models import Room
-from .serializers import ReadUserSerializer, WriteUserSerializer
+from .serializers import UserSerializer
 from .models import User
 
 
@@ -16,10 +16,10 @@ class MeView(APIView):
     ]
 
     def get(self, request):
-        return Response(ReadUserSerializer(request.user).data)
+        return Response(UserSerializer(request.user).data)
 
     def put(self, request):
-        serializer = WriteUserSerializer(request.user, data=request.data, partial=True)
+        serializer = UserSerializer(request.user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response()
@@ -31,7 +31,7 @@ class MeView(APIView):
 def user_detail(request, pk):
     try:
         user = User.objects.get(pk=pk)
-        return Response(ReadUserSerializer(user).data)
+        return Response(UserSerializer(user).data)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
