@@ -3,21 +3,15 @@ from users.serializers import RelateUserSerializer
 from .models import Room
 
 
-class ReadRoomSerializer(serializers.ModelSerializer):
-
+class RoomSerializer(serializers.ModelSerializer):
     user = RelateUserSerializer()
 
     class Meta:
         model = Room
         exclude = ("modified",)
-
-
-class WriteRoomSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Room
-        exclude = (
+        read_only_fields = (
             "user",
-            "modified",
+            "id",
             "created",
         )
 
