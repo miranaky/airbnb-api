@@ -2,7 +2,7 @@ import graphene
 from graphene_django import DjangoObjectType
 from users.models import User
 from users.mutations import CreateUserMutaion, UserLoginMutation
-from users.queries import resolve_user
+from users.queries import resolve_user, resolver_me
 
 
 class UserType(DjangoObjectType):
@@ -17,6 +17,7 @@ class Query(object):
     user = graphene.Field(
         UserType, id=graphene.Int(required=True), resolver=resolve_user
     )
+    me = graphene.Field(UserType, resolver=resolver_me)
 
 
 class Mutation(object):
