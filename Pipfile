@@ -9,10 +9,11 @@ black = "*"
 
 [packages]
 django = "*"
-pillow = "*"
 django-seed = "*"
 djangorestframework = "*"
 pyjwt = "*"
+graphene-django = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.8"
